@@ -70,8 +70,18 @@ if (isset($_POST['submit']))
     <title>Шины24</title>
 </head>
 <body>
-    <div class="container text-center" >
-    <div style="font-size: 4em" >ООО "Шины24"</div>
+    <div class="container" >
+        <div class="row" style="font-size:3em; background-color:black; color: white;">
+            <div class="col-sm">
+            ООО "Шины24"
+            </div>
+            <div class="col-sm">
+            </div>
+            <div class="col-sm">
+            </div>
+
+        </div>
+    <div style="font-size: 4em" ></div>
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
