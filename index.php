@@ -27,23 +27,33 @@ if (isset($_POST['submit']))
 	$name = trim($name);
 	$surname = trim($surname);
 	$phone = trim($phone);
-    $email = trim($email);
+  $email = trim($email);
 
-  if (!strlen($name))
+  if (strlen($name)<3)
   {
-    $errors[] = "Поле Имя не должно быть пустым!";
+    $errors[] = "Поле Имя не должно быть меньше 2 символов!";
   }
   
-  if (!strlen($email))
+  if (strlen($surname)<3)
   {
-    $errors[] = "Поле Email не должно быть пустым!";
+    $errors[] = "Поле Фамилия не должно быть меньше 2 символов!";
   }
+  if (floor(log10($phone) + 1)!=10 and floor(log10($phone) + 1)!=11)
+  {
+    $errors[] = "Формат номера телефона некорректен!";
+  }
+  /*if (floor(log10($phone) + 1)!=11)
+  {
+    $errors[] = "Формат номера телефона некорректен!";
+  }*/
   
   if (strpos($email, "@") === false)
   {
     $errors[] = "Поле Email должно быть валидным Email адресом!";
   }
-
+//   var_dump($name);
+//   var_dump($errors);
+//   var_dump( empty($errors));
   if (empty($errors))
   {
     $query = sprintf("INSERT INTO feedback (`name`, `surname`, `phone`, `email`) VALUES ('%s', '%s', '%s', '%s')", $name, $surname,$phone,$email);
@@ -70,17 +80,8 @@ if (isset($_POST['submit']))
     <title>Шины24</title>
 </head>
 <body>
-    <div class="container" >
-        <div class="row" style="font-size:3em; background-color:black; color: white;">
-            <div class="col-sm">
-            ООО "Шины24"
-            </div>
-            <div class="col-sm">
-            </div>
-            <div class="col-sm">
-            </div>
-
-        </div>
+    <div class="container-fluid" >
+    <?include_once($_SERVER['DOCUMENT_ROOT'] . '/sections/header.php');?>
     <div style="font-size: 4em" ></div>
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
@@ -106,27 +107,37 @@ if (isset($_POST['submit']))
             <span class="sr-only">Next</span>
         </a>
         </div>
-        <div style="width:50%; margin-left:25%">
+        <div style="width:50%; margin-left:25%; margin-bottom: 150px; margin-top:50px;">
+        <?if(!empty($errors)){?>
+            <div class="alert alert-danger" role="alert">
+              <ul>
+              <?foreach($errors as $key => $value){?>
+                <li><?=$value?></li>
+              <?}?>
+              </ul>
+            </div>
+          <?}?>
             <form action="" method="post">
                             <div class="form-group">
                                 <label for="user-name">Имя</label>
-                                <input type="text" name="name" class="form-control" id="user-name" placeholder="Введите ваше имя" value="<?=$email?>">
+                                <input type="text" name="name" class="form-control" id="user-name" placeholder="Введите ваше имя" value="<?=$name?>">
                             </div>
                             <div class="form-group">
                                 <label for="user-surname">Фамилия</label>
-                                <input type="text" name="surname" class="form-control" id="user-surname" placeholder="Введите вашу фамилию" value="<?=$name?>">
+                                <input type="text" name="surname" class="form-control" id="user-surname" placeholder="Введите вашу фамилию" value="<?=$surname?>">
                             </div>
                             <div class="form-group">
                                 <label for="user-phone">Телефон</label>
-                                <input type="number" name="phone" class="form-control" id="user-phone" placeholder="Введите ваше телефон" value="<?=$name?>">
+                                <input type="number" name="phone" class="form-control" id="user-phone" placeholder="Введите ваше телефон" value="<?=$phone?>">
                             </div>
                             <div class="form-group">
                                 <label for="user-email">E-mail</label>
-                                <input type="email" name="email" class="form-control" id="user-email" placeholder="Введите ваш email" value="<?=$name?>">
+                                <input type="email" name="email" class="form-control" id="user-email" placeholder="Введите ваш email" value="<?=$email?>">
                             </div>
                             <button type="submit" name="submit" class="btn btn-primary">Отправить</button>
             </form>
         </div>
+        <?include_once($_SERVER['DOCUMENT_ROOT'] . '/sections/footer.php');?>
     </div>
 </body>
 </html>
